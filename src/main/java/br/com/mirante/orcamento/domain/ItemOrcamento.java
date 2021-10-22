@@ -1,6 +1,7 @@
 package br.com.mirante.orcamento.domain;
 
 public class ItemOrcamento {
+	private Integer id;
 	private String origem;
 	private String codigoItem;
 	private String descricaoItem;
@@ -9,10 +10,16 @@ public class ItemOrcamento {
 	private float quantidade;
 	private float valorTotalInformado;
 
-	public ItemOrcamento(String origem, String codigoItem, String descricaoItem, float valorUnitario, String unidadeMedida,
-			float quantidade, float valorTotalInformado) {
+	public ItemOrcamento(Integer id, String origem, String codigoItem, String descricaoItem, float valorUnitario,
+			String unidadeMedida, float quantidade, float valorTotalInformado) {
 
-		super();
+		this(origem, codigoItem, descricaoItem, valorUnitario, unidadeMedida, quantidade, valorTotalInformado);
+		this.id = id;
+	}
+
+	public ItemOrcamento(String origem, String codigoItem, String descricaoItem, float valorUnitario,
+			String unidadeMedida, float quantidade, float valorTotalInformado) {
+
 		this.origem = origem;
 		this.codigoItem = codigoItem;
 		this.descricaoItem = descricaoItem;
@@ -22,7 +29,10 @@ public class ItemOrcamento {
 		this.valorTotalInformado = valorTotalInformado;
 	}
 
-	
+	public Integer getId() {
+		return id;
+	}
+
 	public boolean possuiInconsistencia() {
 		return valorUnitario * quantidade != valorTotalInformado;
 	}
