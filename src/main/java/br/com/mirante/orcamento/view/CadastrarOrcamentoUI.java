@@ -55,7 +55,7 @@ public class CadastrarOrcamentoUI implements Funcionalidade {
 
 		servico.cadastrar(orcamento);
 
-		new MenuPrincipal().exibir();
+		new MenuPrincipal().executar();
 
 	}
 

@@ -26,7 +26,7 @@ public class DetalharOrcamentoUI implements Funcionalidade {
 			}
 		}
 
-		new MenuPrincipal().exibir();
+		new MenuDetalharOrcamentoUI().executar();
 	}
 
 }

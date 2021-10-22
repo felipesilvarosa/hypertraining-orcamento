@@ -14,7 +14,7 @@ public class ListarOrcamentoUI implements Funcionalidade {
 		for (Orcamento orcamento : orcamentos) {
 			UIUtils.imprimirOrcamento(orcamento);
 		}
-		new MenuPrincipal().exibir();
+		new MenuPrincipal().executar();
 	}
 
 }
