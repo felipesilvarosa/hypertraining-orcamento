@@ -1,36 +1,23 @@
 package br.com.mirante.orcamento.view;
 
-import java.util.Scanner;
 import java.util.stream.Stream;
 
-public class MenuPrincipal {
+public class MenuPrincipal extends Menu {
 
-	Scanner scanner = new Scanner(System.in);
-
-	public void exibir() {
-		imprimirMenu();
-
-		// java 10+ pode usar var
-		var opcaoSelecionada = scanner.next();
-
-		while (!Menus.existe(opcaoSelecionada)) {
-			System.out.println("A opção selecionada é invalida, tente novamente");
-			imprimirMenu();
-			opcaoSelecionada = scanner.next();
-		}
-
-		processarOpcaoSelecionadaValida(opcaoSelecionada);
-
-	}
-
-	private void imprimirMenu() {
+	protected void imprimirMenu() {
 		System.out.println("Digite o número correspondente à opção desejada");
-		Stream.of(Menus.values()).forEach(Menus::exibir);
+		Stream.of(OpcoesMenuPrincipal.values()).forEach(OpcoesMenuPrincipal::exibir);
 	}
 
-	private void processarOpcaoSelecionadaValida(String opcaoSelecionada) {
+	protected void processarOpcaoSelecionadaValida(String opcaoSelecionada) {
 		System.out.println("A opção selecionada foi " + opcaoSelecionada);
-		Menus.get(opcaoSelecionada).executar();
+		OpcoesMenuPrincipal.get(opcaoSelecionada).executar();
 
 	}
+
+	@Override
+	protected boolean existe(String opcaoSelecinada) {
+		return OpcoesMenuPrincipal.existe(opcaoSelecinada);
+	}
+
 }

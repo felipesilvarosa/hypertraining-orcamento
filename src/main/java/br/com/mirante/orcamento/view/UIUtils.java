@@ -20,6 +20,8 @@ public class UIUtils {
 	}
 
 	static void exibirItemOrcamento(ItemOrcamento item) {
+		System.out.print("Id: " + item.getId());
+		System.out.print("  |  ");
 		System.out.print(item.getOrigem());
 		System.out.print("  |  ");
 		System.out.print(item.getCodigo());
