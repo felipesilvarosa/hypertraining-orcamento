@@ -2,22 +2,28 @@ package br.com.mirante.orcamento.repository;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.mirante.orcamento.domain.ItemOrcamento;
 import br.com.mirante.orcamento.domain.Orcamento;
 
 public class OrcamentoRepositoryJdbc implements OrcamentoRepository {
+
+	private static final String URL = "jdbc:mysql://localhost/orcamento";
+	private static final String USER = "root";
+	private static final String PASSWORD = System.getenv("SISTEMA_ORCAMENTO_PASSWORD");
 
 	@Override
 	public int obterMaiorId() {
 
 		Integer maiorId = null;
 
-		try (Connection conexao = DriverManager.getConnection("jdbc:mysql://localhost/orcamento", "root", "fel3003");
+		try (Connection conexao = DriverManager.getConnection(URL, USER, PASSWORD);
 				Statement statement = conexao.createStatement()) {
 
 			ResultSet result = statement.executeQuery("SELECT MAX(ID) AS ID FROM ORCAMENTO");
@@ -40,7 +46,7 @@ public class OrcamentoRepositoryJdbc implements OrcamentoRepository {
 		String insertItem = "INSERT INTO ITEM_ORCAMENTO (ORIGEM, CODIGO, DESCRICAO, UNIDADE, VALOR_UNITARIO, QUANTIDADE, VALOR_TOTAL_INFORMADO, ID_ORCAMENTO)"
 				+ " VALUES (?,?,?,?,?,?,?,?)";
 
-		try (Connection conexao = DriverManager.getConnection("jdbc:mysql://localhost/orcamento", "root", "fel3003");
+		try (Connection conexao = DriverManager.getConnection(URL, USER, PASSWORD);
 				var statementOrcamento = conexao.prepareStatement(insertOrcamento);
 				var statementItem = conexao.prepareStatement(insertItem)) {
 
@@ -63,6 +69,7 @@ public class OrcamentoRepositoryJdbc implements OrcamentoRepository {
 				statementItem.setFloat(7, item.getValorTotalInformado());
 				statementItem.setInt(8, orcamento.getId());
 
+				statementItem.executeUpdate();
 			}
 
 		} catch (SQLException exception) {
@@ -77,7 +84,7 @@ public class OrcamentoRepositoryJdbc implements OrcamentoRepository {
 
 		List<Orcamento> orcamentos = new ArrayList<>();
 
-		try (Connection conexao = DriverManager.getConnection("jdbc:mysql://localhost/orcamento", "root", "fel3003");
+		try (Connection conexao = DriverManager.getConnection(URL, USER, PASSWORD);
 				Statement statement = conexao.createStatement()) {
 
 			ResultSet result = statement
@@ -105,12 +112,13 @@ public class OrcamentoRepositoryJdbc implements OrcamentoRepository {
 	@Override
 	public Orcamento recuperar(int id) {
 		Orcamento orcamento = null;
+		String query = "SELECT ID, DESCRICAO, MES, ANO, VALOR_TOTAL_INFORMADO FROM ORCAMENTO WHERE ID = ?";
 
-		try (Connection conexao = DriverManager.getConnection("jdbc:mysql://localhost/orcamento", "root", "fel3003");
-				Statement statement = conexao.createStatement()) {
+		try (Connection conexao = DriverManager.getConnection(URL, USER, PASSWORD);
+				PreparedStatement statement = conexao.prepareStatement(query)) {
 
-			ResultSet result = statement.executeQuery(
-					"SELECT ID, DESCRICAO, MES, ANO, VALOR_TOTAL_INFORMADO FROM ORCAMENTO WHERE ID =" + id);
+			statement.setInt(1, id);
+			ResultSet result = statement.executeQuery();
 
 			if (result.next()) {
 				Integer idOrcamento = result.getInt("ID");
@@ -118,7 +126,10 @@ public class OrcamentoRepositoryJdbc implements OrcamentoRepository {
 				Integer mes = result.getInt("MES");
 				Integer ano = result.getInt("ANO");
 				Float valorTotalInformado = result.getFloat("VALOR_TOTAL_INFORMADO");
-				orcamento = new Orcamento(descricao, mes, ano, valorTotalInformado, new ArrayList<>());
+
+				List<ItemOrcamento> itens = recuperarItensOrcamento(conexao, idOrcamento);
+
+				orcamento = new Orcamento(descricao, mes, ano, valorTotalInformado, itens);
 				orcamento.setId(idOrcamento);
 			}
 
@@ -127,6 +138,30 @@ public class OrcamentoRepositoryJdbc implements OrcamentoRepository {
 			exception.printStackTrace();
 		}
 		return orcamento;
+	}
+
+	private List<ItemOrcamento> recuperarItensOrcamento(Connection conexao, Integer idOrcamento) throws SQLException {
+		String query = "SELECT ID, ORIGEM, CODIGO, DESCRICAO, VALOR_UNITARIO, UNIDADE, QUANTIDADE, VALOR_TOTAL_INFORMADO FROM ITEM_ORCAMENTO WHERE ID_ORCAMENTO = ?";
+		List<ItemOrcamento> itens = new ArrayList<>();
+
+		try (PreparedStatement statement = conexao.prepareStatement(query)) {
+			statement.setInt(1, idOrcamento);
+			ResultSet resultado = statement.executeQuery();
+
+			while (resultado.next()) {
+				Integer id = resultado.getInt("ID");
+				String origem = resultado.getString("ORIGEM");
+				String codigo = resultado.getString("CODIGO");
+				String descricao = resultado.getString("DESCRICAO");
+				Float valorUnitario = resultado.getFloat("VALOR_UNITARIO");
+				String unidade = resultado.getString("UNIDADE");
+				Float quantidade = resultado.getFloat("QUANTIDADE");
+				Float valorTotalInformado = resultado.getFloat("VALOR_TOTAL_INFORMADO");
+				itens.add(new ItemOrcamento(id, origem, codigo, descricao, valorUnitario, unidade, quantidade,
+						valorTotalInformado));
+			}
+		}
+		return itens;
 	}
 
 }
