@@ -112,4 +112,40 @@ public class ItemOrcamento implements Serializable {
 		return orcamento;
 	}
 
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public void setOrigem(String origem) {
+		this.origem = origem;
+	}
+
+	public void setCodigoItem(String codigoItem) {
+		this.codigoItem = codigoItem;
+	}
+
+	public void setDescricaoItem(String descricaoItem) {
+		this.descricaoItem = descricaoItem;
+	}
+
+	public void setValorUnitario(Float valorUnitario) {
+		this.valorUnitario = valorUnitario;
+	}
+
+	public void setUnidadeMedida(String unidadeMedida) {
+		this.unidadeMedida = unidadeMedida;
+	}
+
+	public void setQuantidade(Float quantidade) {
+		this.quantidade = quantidade;
+	}
+
+	public void setValorTotalInformado(Float valorTotalInformado) {
+		this.valorTotalInformado = valorTotalInformado;
+	}
+
+	public void setOrcamento(Orcamento orcamento) {
+		this.orcamento = orcamento;
+	}
+
 }

@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -26,7 +25,7 @@ public class Orcamento implements Serializable {
 	@Column(name = "VALOR_TOTAL_INFORMADO")
 	private Float valorTotalInformado;
 
-	@OneToMany(mappedBy = "orcamento", cascade = CascadeType.PERSIST)
+	@OneToMany(mappedBy = "orcamento")
 	private List<ItemOrcamento> itensOrcamento;
 
 	public Orcamento(String descricao, int mes, int ano, float valorTotalInformado,

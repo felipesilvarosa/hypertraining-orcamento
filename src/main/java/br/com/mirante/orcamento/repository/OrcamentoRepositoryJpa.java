@@ -19,8 +19,12 @@ public class OrcamentoRepositoryJpa implements OrcamentoRepository {
 	public void salvar(Orcamento orcamento) {
 		entityManager.getTransaction().begin();
 		entityManager.persist(orcamento);
+		var itens = orcamento.getItensOrcamento().stream().map(i -> {
+			i.setOrcamento(orcamento);
+			return i;
+		});
+		itens.forEach(entityManager::persist);
 		entityManager.getTransaction().commit();
-
 	}
 
 	@Override
