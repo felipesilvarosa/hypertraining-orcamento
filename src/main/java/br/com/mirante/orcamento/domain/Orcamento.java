@@ -1,15 +1,32 @@
 package br.com.mirante.orcamento.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Orcamento {
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
-	private int id;
+@Entity
+public class Orcamento implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8620639217403305902L;
+	@Id
+	private Integer id;
 	private String descricao;
-	private int mes;
-	private int ano;
-	private float valorTotalInformado;
+	private Integer mes;
+	private Integer ano;
+
+	@Column(name = "VALOR_TOTAL_INFORMADO")
+	private Float valorTotalInformado;
+
+	@OneToMany(mappedBy = "orcamento", cascade = CascadeType.PERSIST)
 	private List<ItemOrcamento> itensOrcamento;
 
 	public Orcamento(String descricao, int mes, int ano, float valorTotalInformado,
@@ -20,6 +37,10 @@ public class Orcamento {
 		this.ano = ano;
 		this.valorTotalInformado = valorTotalInformado;
 		this.itensOrcamento = itensOrcamento;
+	}
+
+	protected Orcamento() {
+
 	}
 
 	public List<ItemOrcamento> detalharInconsistencias() {
@@ -34,11 +55,11 @@ public class Orcamento {
 		return itensComInconsistencia;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -46,15 +67,15 @@ public class Orcamento {
 		return descricao;
 	}
 
-	public int getMes() {
+	public Integer getMes() {
 		return mes;
 	}
 
-	public int getAno() {
+	public Integer getAno() {
 		return ano;
 	}
 
-	public float getValorTotalInformado() {
+	public Float getValorTotalInformado() {
 		return valorTotalInformado;
 	}
 
