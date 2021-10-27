@@ -1,13 +1,10 @@
 package br.com.mirante.orcamento.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity
 public class Orcamento implements Serializable {
@@ -25,34 +22,18 @@ public class Orcamento implements Serializable {
 	@Column(name = "VALOR_TOTAL_INFORMADO")
 	private Float valorTotalInformado;
 
-	@OneToMany(mappedBy = "orcamento")
-	private List<ItemOrcamento> itensOrcamento;
-
-	public Orcamento(String descricao, int mes, int ano, float valorTotalInformado,
-			List<ItemOrcamento> itensOrcamento) {
+	public Orcamento(String descricao, int mes, int ano, float valorTotalInformado) {
 		super();
 		this.descricao = descricao;
 		this.mes = mes;
 		this.ano = ano;
 		this.valorTotalInformado = valorTotalInformado;
-		this.itensOrcamento = itensOrcamento;
 	}
 
 	protected Orcamento() {
 
 	}
 
-	public List<ItemOrcamento> detalharInconsistencias() {
-
-		ArrayList<ItemOrcamento> itensComInconsistencia = new ArrayList<ItemOrcamento>();
-
-		for (ItemOrcamento itemOrcamento : itensOrcamento) {
-			if (itemOrcamento.possuiInconsistencia()) {
-				itensComInconsistencia.add(itemOrcamento);
-			}
-		}
-		return itensComInconsistencia;
-	}
 
 	public Integer getId() {
 		return id;
@@ -78,8 +59,5 @@ public class Orcamento implements Serializable {
 		return valorTotalInformado;
 	}
 
-	public List<ItemOrcamento> getItensOrcamento() {
-		return itensOrcamento;
-	}
 
 }

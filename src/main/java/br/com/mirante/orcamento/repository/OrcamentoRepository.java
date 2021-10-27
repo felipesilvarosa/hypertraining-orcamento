@@ -14,4 +14,6 @@ public interface OrcamentoRepository {
 
 	public Orcamento recuperar(int id);
 
+	public void excluir(Integer id);
+
 }

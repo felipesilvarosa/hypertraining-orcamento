@@ -2,13 +2,17 @@ package br.com.mirante.orcamento.services;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import br.com.mirante.orcamento.domain.Orcamento;
 import br.com.mirante.orcamento.repository.OrcamentoRepository;
-import br.com.mirante.orcamento.repository.OrcamentoRepositoryJpa;
 
+@Service
 public class ListarOrcamentosServico {
 
-	private OrcamentoRepository repositorio = new OrcamentoRepositoryJpa();
+	@Autowired
+	private OrcamentoRepository repositorio;
 
 	public List<Orcamento> listarOrcamentos() {
 

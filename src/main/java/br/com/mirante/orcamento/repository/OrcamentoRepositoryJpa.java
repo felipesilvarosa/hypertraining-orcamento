@@ -3,11 +3,16 @@ package br.com.mirante.orcamento.repository;
 import java.util.List;
 
 import br.com.mirante.orcamento.domain.Orcamento;
-import jakarta.persistence.EntityManager;
+import javax.persistence.EntityManager;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+@Repository
 public class OrcamentoRepositoryJpa implements OrcamentoRepository {
 
-	private EntityManager entityManager = JpaUtils.getEntityManager();
+	@Autowired
+	private EntityManager entityManager;
 
 	@Override
 	public int obterMaiorId() {
@@ -17,14 +22,7 @@ public class OrcamentoRepositoryJpa implements OrcamentoRepository {
 
 	@Override
 	public void salvar(Orcamento orcamento) {
-		entityManager.getTransaction().begin();
 		entityManager.persist(orcamento);
-		var itens = orcamento.getItensOrcamento().stream().map(i -> {
-			i.setOrcamento(orcamento);
-			return i;
-		});
-		itens.forEach(entityManager::persist);
-		entityManager.getTransaction().commit();
 	}
 
 	@Override
@@ -36,6 +34,11 @@ public class OrcamentoRepositoryJpa implements OrcamentoRepository {
 	@Override
 	public Orcamento recuperar(int id) {
 		return entityManager.find(Orcamento.class, id);
+	}
+
+	@Override
+	public void excluir(Integer id) {
+		entityManager.createQuery("delete from Orcamento o where o.id = :id").setParameter("id", id).executeUpdate();
 	}
 
 }

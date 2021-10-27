@@ -8,7 +8,6 @@ public class ExcluirItemServico {
 	private ItemRepository repositorio = new ItemRepositoryJpa();
 
 	public void excluirItem(Integer idItem) {
-
 		repositorio.excluir(idItem);
 	}
 }
