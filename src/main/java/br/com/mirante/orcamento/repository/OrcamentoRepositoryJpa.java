@@ -22,7 +22,7 @@ public class OrcamentoRepositoryJpa implements OrcamentoRepository {
 
 	@Override
 	public void salvar(Orcamento orcamento) {
-		entityManager.persist(orcamento);
+		entityManager.merge(orcamento);
 	}
 
 	@Override

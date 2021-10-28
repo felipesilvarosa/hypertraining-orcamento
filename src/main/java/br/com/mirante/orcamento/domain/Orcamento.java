@@ -8,9 +8,8 @@ import javax.persistence.Id;
 
 @Entity
 public class Orcamento implements Serializable {
-
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -8620639217403305902L;
 	@Id
@@ -34,7 +33,6 @@ public class Orcamento implements Serializable {
 
 	}
 
-
 	public Integer getId() {
 		return id;
 	}
@@ -47,17 +45,31 @@ public class Orcamento implements Serializable {
 		return descricao;
 	}
 
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
 	public Integer getMes() {
 		return mes;
+	}
+
+	public void setMes(Integer mes) {
+		this.mes = mes;
 	}
 
 	public Integer getAno() {
 		return ano;
 	}
 
+	public void setAno(Integer ano) {
+		this.ano = ano;
+	}
+
 	public Float getValorTotalInformado() {
 		return valorTotalInformado;
 	}
 
-
+	public void setValorTotalInformado(Float valorTotalInformado) {
+		this.valorTotalInformado = valorTotalInformado;
+	}
 }

@@ -1,10 +1,10 @@
 package br.com.mirante.orcamento.services;
 
+import br.com.mirante.orcamento.repository.ItemOrcamentoRepositoryJpa;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.mirante.orcamento.repository.ItemRepository;
 import br.com.mirante.orcamento.repository.OrcamentoRepository;
 
 @Service
@@ -14,11 +14,11 @@ public class ExcluirOrcamentoServico {
 	private OrcamentoRepository repositorio;
 	
 	@Autowired
-	private ItemRepository itemRepositorio;
+	private ItemOrcamentoRepositoryJpa itemRepositorio;
 	
 	@Transactional
 	public void excluir(Integer id) {
-		itemRepositorio.excluirItens(id);
+		itemRepositorio.deleteByIdOrcamento(id);
 		repositorio.excluir(id);		
 	}
 

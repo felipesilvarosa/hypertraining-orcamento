@@ -1,13 +1,14 @@
 package br.com.mirante.orcamento.services;
 
-import br.com.mirante.orcamento.repository.ItemRepository;
-import br.com.mirante.orcamento.repository.ItemRepositoryJpa;
+import br.com.mirante.orcamento.repository.ItemOrcamentoRepositoryJpa;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class ExcluirItemServico {
 
-	private ItemRepository repositorio = new ItemRepositoryJpa();
+	@Autowired
+	private ItemOrcamentoRepositoryJpa repositorio;
 
 	public void excluirItem(Integer idItem) {
-		repositorio.excluir(idItem);
+		repositorio.deleteById(idItem);
 	}
 }

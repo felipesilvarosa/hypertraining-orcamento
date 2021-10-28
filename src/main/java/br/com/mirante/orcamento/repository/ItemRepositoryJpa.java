@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import br.com.mirante.orcamento.domain.ItemOrcamento;
@@ -12,8 +11,11 @@ import br.com.mirante.orcamento.domain.ItemOrcamento;
 @Repository
 public class ItemRepositoryJpa implements ItemRepository {
 
-	@Autowired
-	private EntityManager entityManager;
+	private final EntityManager entityManager;
+
+	public ItemRepositoryJpa(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
 
 	@Override
 	public void excluir(Integer idItem) {

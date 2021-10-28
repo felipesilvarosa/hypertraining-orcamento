@@ -42,8 +42,9 @@ public class ItemOrcamento implements Serializable {
 	private Float valorTotalInformado;
 
 	@ManyToOne
-	@JoinColumn(name = "ID_ORCAMENTO")
+	@JoinColumn(name = "ID_ORCAMENTO", insertable = true)
 	private Orcamento orcamento;
+
 
 	public ItemOrcamento(Integer id, String origem, String codigoItem, String descricaoItem, float valorUnitario,
 			String unidadeMedida, float quantidade, float valorTotalInformado) {
