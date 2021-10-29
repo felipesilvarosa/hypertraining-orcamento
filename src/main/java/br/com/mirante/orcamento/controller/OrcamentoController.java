@@ -10,6 +10,7 @@ import br.com.mirante.orcamento.domain.ItemOrcamento;
 import br.com.mirante.orcamento.domain.Orcamento;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class OrcamentoController {
 	
 	@Autowired
@@ -27,7 +28,7 @@ public class OrcamentoController {
 	@Autowired
 	private AtualizarOrcamentoServico atualizarServico;
 
-	
+
 	@GetMapping("/orcamentos")
 	public List<Orcamento> listarOrcamentos(){
 		return servico.listarOrcamentos();

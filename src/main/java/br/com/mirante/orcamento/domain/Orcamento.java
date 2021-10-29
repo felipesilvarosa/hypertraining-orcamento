@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 @Entity
 public class Orcamento implements Serializable {
@@ -20,6 +21,9 @@ public class Orcamento implements Serializable {
 
 	@Column(name = "VALOR_TOTAL_INFORMADO")
 	private Float valorTotalInformado;
+
+	@Transient
+	private Float valorTotalCalculado;
 
 	public Orcamento(String descricao, int mes, int ano, float valorTotalInformado) {
 		super();
@@ -71,5 +75,13 @@ public class Orcamento implements Serializable {
 
 	public void setValorTotalInformado(Float valorTotalInformado) {
 		this.valorTotalInformado = valorTotalInformado;
+	}
+
+	public Float getValorTotalCalculado() {
+		return valorTotalCalculado;
+	}
+
+	public void setValorTotalCalculado(Float valorTotalCalculado) {
+		this.valorTotalCalculado = valorTotalCalculado;
 	}
 }

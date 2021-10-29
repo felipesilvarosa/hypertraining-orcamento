@@ -4,7 +4,6 @@ public class ContaCorrente extends Conta {
 
 	public ContaCorrente(String agencia, String numero, Cliente cliente) {
 		super(agencia, numero, cliente);
-		// TODO Auto-generated constructor stub
 	}
 
 	private float limite;

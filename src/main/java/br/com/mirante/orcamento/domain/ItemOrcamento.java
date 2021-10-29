@@ -149,4 +149,7 @@ public class ItemOrcamento implements Serializable {
 		this.orcamento = orcamento;
 	}
 
+	public Float getValorTotalCalculado() {
+		return this.valorUnitario * this.quantidade;
+	}
 }
