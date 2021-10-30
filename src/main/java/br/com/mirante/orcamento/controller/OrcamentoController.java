@@ -10,9 +10,8 @@ import br.com.mirante.orcamento.domain.ItemOrcamento;
 import br.com.mirante.orcamento.domain.Orcamento;
 
 @RestController
-@CrossOrigin(origins = "*")
 public class OrcamentoController {
-	
+
 	@Autowired
 	private ListarOrcamentosServico servico;
 	
