@@ -1,5 +1,7 @@
 package br.com.mirante.orcamento.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -43,6 +45,7 @@ public class ItemOrcamento implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "ID_ORCAMENTO", insertable = true)
+	@JsonIgnore
 	private Orcamento orcamento;
 
 
