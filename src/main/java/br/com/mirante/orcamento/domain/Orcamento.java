@@ -84,4 +84,9 @@ public class Orcamento implements Serializable {
 	public void setValorTotalCalculado(Float valorTotalCalculado) {
 		this.valorTotalCalculado = valorTotalCalculado;
 	}
+
+	public Float getDiferencaCalculo() {
+		return valorTotalCalculado - valorTotalInformado;
+	}
+
 }
