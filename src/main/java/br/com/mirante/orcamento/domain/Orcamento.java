@@ -86,6 +86,9 @@ public class Orcamento implements Serializable {
 	}
 
 	public Float getDiferencaCalculo() {
+		if(valorTotalCalculado == null){
+			return null;
+		}
 		return valorTotalCalculado - valorTotalInformado;
 	}
 
