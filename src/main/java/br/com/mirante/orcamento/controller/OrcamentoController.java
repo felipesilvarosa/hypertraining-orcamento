@@ -10,6 +10,7 @@ import br.com.mirante.orcamento.domain.ItemOrcamento;
 import br.com.mirante.orcamento.domain.Orcamento;
 
 @RestController
+@RequestMapping("/orcamentos")
 public class OrcamentoController {
 
 	@Autowired
@@ -27,31 +28,40 @@ public class OrcamentoController {
 	@Autowired
 	private AtualizarOrcamentoServico atualizarServico;
 
+	@Autowired
+	private RecuperarInconsistenciasServico inconsistenciaServico;
 
-	@GetMapping("/orcamentos")
+
+	@GetMapping
 	public List<Orcamento> listarOrcamentos(){
 		return servico.listarOrcamentos();
 	}
 	
-	@GetMapping("/orcamentos/{id}")
+	@GetMapping("/{id}")
 	public Orcamento recuperarOrcamento(@PathVariable Integer id) {
 		return detalharServico.recuperar(id);
 	}
 	
-	@PostMapping("/orcamentos")
+	@PostMapping
 	public Orcamento cadastrarOrcamento(@RequestBody CadastrarOrcamentoRequest requisicao) {
 		return cadastrarServico.cadastrar(requisicao.orcamento, requisicao.itens);	
 	}
 
-	@DeleteMapping("/orcamentos/{id}")
+	@DeleteMapping("/{id}")
 	public void excluirOrcamento(@PathVariable Integer id) {
 		excluirServico.excluir(id);
 	}
 
-	@PutMapping("/orcamentos/{id}")
+	@PutMapping("/{id}")
 	public void atualizarOrcamento(@PathVariable Integer id, @RequestBody Orcamento orcamento){
 		atualizarServico.atualizar(id, orcamento);
 	}
+
+	@GetMapping("/{id}/inconsistencias")
+	public List<String> recuperarInconsistencias(@PathVariable Integer id){
+		return inconsistenciaServico.recuperarInconsistencias(id);
+	}
+
 }
 
 class CadastrarOrcamentoRequest{
