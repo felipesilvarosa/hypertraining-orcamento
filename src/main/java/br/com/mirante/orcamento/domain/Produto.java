@@ -1,6 +1,11 @@
 package br.com.mirante.orcamento.domain;
 
-public class Produto {
+
+import java.io.Serializable;
+
+public class Produto implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private String origem;
     private String codigo;
@@ -20,19 +25,40 @@ public class Produto {
         return origem;
     }
 
+    public void setOrigem(String origem) {
+        this.origem = origem;
+    }
+
     public String getCodigo() {
         return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     public String getDescricao() {
         return descricao;
     }
 
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
     public String getUnidadeMedida() {
         return unidadeMedida;
     }
 
+    public void setUnidadeMedida(String unidadeMedida) {
+        this.unidadeMedida = unidadeMedida;
+    }
+
+
     public Float getValor() {
         return valor;
+    }
+
+    public void setValor(Float valor) {
+        this.valor = valor;
     }
 }

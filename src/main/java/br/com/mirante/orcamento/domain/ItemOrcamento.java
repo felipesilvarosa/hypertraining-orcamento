@@ -77,7 +77,8 @@ public class ItemOrcamento implements Serializable {
 	}
 
 	public boolean possuiInconsistencia() {
-		return valorUnitario * quantidade != valorTotalInformado;
+		var diferenca = getValorTotalCalculado() - valorTotalInformado;
+		return diferenca > 0.009 || diferenca < -0.009;
 	}
 
 	public String getOrigem() {

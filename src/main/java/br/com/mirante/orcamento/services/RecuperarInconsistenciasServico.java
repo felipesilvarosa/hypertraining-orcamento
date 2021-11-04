@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static java.util.stream.Collectors.toList;
-
 @Service
 public class RecuperarInconsistenciasServico {
 
@@ -27,7 +25,7 @@ public class RecuperarInconsistenciasServico {
     @Autowired
     private ReferenciaPrecoRepository referenciaPrecoRepositorio;
 
-    public List<String> recuperarInconsistencias(Integer id){
+    public List<String> recuperarInconsistencias(Integer id) {
         List<String> inconsistencias = new ArrayList<>();
         List<ItemOrcamento> itens = itensRepositorio.listarPorIdOrcamento(id);
         Orcamento orcamento = orcamentoRepositorio.recuperar(id);
@@ -49,19 +47,22 @@ public class RecuperarInconsistenciasServico {
     }
 
     private void inconsistenciasDoItem(List<String> inconsistencias, ItemOrcamento itemOrcamento, int numeroItem, Map<String, Produto> produtos) {
-        if(itemOrcamento.getQuantidade() == 0F){
-            inconsistencias.add("O item de id " + numeroItem + " possui quantidade iguala zero.");
-        }
+        verificarInconsistenciaQuantidadeZero(inconsistencias, itemOrcamento, numeroItem);
+        veirificarInconsistenciaValorCalculado(inconsistencias, itemOrcamento, numeroItem);
+        verificarInconsistenciaPresencaReferenciaPreco(inconsistencias, itemOrcamento, numeroItem, produtos);
+    }
 
-        if (itemOrcamento.getValorTotalCalculado() != itemOrcamento.getValorTotalInformado()){
-            inconsistencias.add(
-                    "O valor total do item de id " + numeroItem
-                            + " deveria ser R$" + itemOrcamento.getValorTotalCalculado()
-                            + " mas foi R$" + itemOrcamento.getValorTotalInformado());
-        }
+    private void verificarInconsistenciaPresencaReferenciaPreco(List<String> inconsistencias, ItemOrcamento itemOrcamento, int numeroItem, Map<String, Produto> produtos) {
 
-        if(produtos.containsKey(itemOrcamento.getCodigo())){
-            Produto produto = produtos.get(itemOrcamento.getCodigo());
+        Orcamento orcamento = itemOrcamento.getOrcamento();
+        String produtoKey = orcamento.getMes()+""+orcamento.getAno()+""+itemOrcamento.getCodigo();
+
+        if(produtos.containsKey(produtoKey)){
+
+            Produto produto = produtos.get(produtoKey);
+
+
+            System.out.println(produto);
 
             if (!produto.getUnidadeMedida().equals(itemOrcamento.getUnidadeMedida())){
                 inconsistencias.add("A unidade do item numero "
@@ -71,12 +72,33 @@ public class RecuperarInconsistenciasServico {
                         + produto.getUnidadeMedida());
             }
 
-            // Verificar o sobrepreço.
+            Float valorTotalCalculadoReferencia = produto.getValor() * itemOrcamento.getQuantidade();
+
+            if (itemOrcamento.getValorTotalCalculado() > valorTotalCalculadoReferencia){
+                Float valorSobrePreco = itemOrcamento.getValorTotalCalculado() - valorTotalCalculadoReferencia;
+                Float percentual = valorSobrePreco / valorTotalCalculadoReferencia * 100 ;
+                inconsistencias.add("O item número " + numeroItem + " possui sobrepreço de " + percentual + "%");
+            }
 
         } else {
             inconsistencias.add(
                     "O item " + numeroItem + " não possuiu uma referencia de preço valida"
             );
+        }
+    }
+
+    private void veirificarInconsistenciaValorCalculado(List<String> inconsistencias, ItemOrcamento itemOrcamento, int numeroItem) {
+        if (itemOrcamento.getValorTotalCalculado() != itemOrcamento.getValorTotalInformado()){
+            inconsistencias.add(
+                    "O valor total do item de id " + numeroItem
+                            + " deveria ser R$" + itemOrcamento.getValorTotalCalculado()
+                            + " mas foi R$" + itemOrcamento.getValorTotalInformado());
+        }
+    }
+
+    protected void verificarInconsistenciaQuantidadeZero(List<String> inconsistencias, ItemOrcamento itemOrcamento, int numeroItem) {
+        if(itemOrcamento.getQuantidade() == 0F){
+            inconsistencias.add("O item de id " + numeroItem + " possui quantidade iguala zero.");
         }
     }
 }
