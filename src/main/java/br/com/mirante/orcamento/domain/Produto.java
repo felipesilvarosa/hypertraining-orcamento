@@ -53,7 +53,6 @@ public class Produto implements Serializable {
         this.unidadeMedida = unidadeMedida;
     }
 
-
     public Float getValor() {
         return valor;
     }

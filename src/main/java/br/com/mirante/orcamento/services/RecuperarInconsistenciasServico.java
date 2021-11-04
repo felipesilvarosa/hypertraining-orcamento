@@ -61,9 +61,6 @@ public class RecuperarInconsistenciasServico {
 
             Produto produto = produtos.get(produtoKey);
 
-
-            System.out.println(produto);
-
             if (!produto.getUnidadeMedida().equals(itemOrcamento.getUnidadeMedida())){
                 inconsistencias.add("A unidade do item numero "
                         + numeroItem +

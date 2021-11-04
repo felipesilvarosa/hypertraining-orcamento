@@ -2,10 +2,11 @@ package br.com.mirante.orcamento.repository;
 
 import br.com.mirante.orcamento.domain.Produto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,8 +19,11 @@ public class ReferenciaPrecoRepositoryRestClient implements ReferenciaPrecoRepos
 
     @Override
     public Map<String, Produto> recuperarProdutos(Integer mes, Integer ano, List<String> codigos) {
-        Map<String, Produto> map = restTemplate.getForObject("http://localhost:8083/produto", Map.class);
-        return map;
+
+        return restTemplate.exchange("http://localhost:8083/produto",
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<Map<String, Produto>>(){}).getBody();
     }
 }
 
