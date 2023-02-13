@@ -1,10 +1,11 @@
-# Hypertraining - Orçamento
+# Hypertraining - Budget control
 
-### Descrição
+### Description
 
-- Aplicação para controle orçamentario desenvolvida no treinamento de estágio
+- Budget control application developed in the internship training
 
-#### Tecnologias
+
+#### Technologies
 
 - Java 17
 - Spring Boot
